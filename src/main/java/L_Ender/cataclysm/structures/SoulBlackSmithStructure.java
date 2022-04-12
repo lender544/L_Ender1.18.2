@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
@@ -53,11 +54,8 @@ public class SoulBlackSmithStructure extends StructureFeature<NoneFeatureConfigu
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setSeed((long) (i ^ j << 4) ^ p_197134_.seed());
         worldgenrandom.nextInt();
-        if (worldgenrandom.nextInt(5) != 0) {
-            return false;
-        } else {
-            return !p_197134_.chunkGenerator().hasFeatureChunkInRange(BuiltinStructureSets.NETHER_COMPLEXES, p_197134_.seed(), chunkpos.x, chunkpos.z, 10);
-        }
+        return p_197134_.validBiomeOnTop(Heightmap.Types.OCEAN_FLOOR_WG);
+
     }
 
 }

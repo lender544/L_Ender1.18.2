@@ -42,7 +42,7 @@ public class Boss_monster extends Monster implements IAnimatedEntity {
         return attack;
     }
 
-    double calculateRange(DamageSource damagesource) {
+    public double calculateRange(DamageSource damagesource) {
         return damagesource.getEntity() != null ? distanceToSqr(damagesource.getEntity()) : -1;
     }
 

@@ -26,7 +26,6 @@ public class RuinedCitadelStructure extends StructureFeature<NoneFeatureConfigur
     }
 
     private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> p_197134_) {
-        ChunkPos chunkpos = p_197134_.chunkPos();
         int i = p_197134_.chunkPos().x >> 4;
         int j = p_197134_.chunkPos().z >> 4;
 

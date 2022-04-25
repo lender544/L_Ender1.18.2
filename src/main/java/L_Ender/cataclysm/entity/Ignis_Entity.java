@@ -92,8 +92,8 @@ public class Ignis_Entity extends Boss_monster {
                 PHASE,
                 SHIELD_SMASH_ATTACK,
                 PHASE_2,
-                BODY_CHECK_ATTACK1,
-                BODY_CHECK_ATTACK2};
+                BODY_CHECK_ATTACK2,
+                BODY_CHECK_ATTACK1};
     }
 
     protected void registerGoals() {

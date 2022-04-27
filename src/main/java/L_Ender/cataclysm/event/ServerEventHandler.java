@@ -1,5 +1,6 @@
 package L_Ender.cataclysm.event;
 
+import L_Ender.cataclysm.entity.Ignis_Entity;
 import L_Ender.cataclysm.init.ModEffect;
 import L_Ender.cataclysm.init.ModEntities;
 import L_Ender.cataclysm.init.ModItems;
@@ -7,6 +8,7 @@ import L_Ender.cataclysm.init.ModStructures;
 import L_Ender.cataclysm.items.final_fractal;
 import L_Ender.cataclysm.items.zweiender;
 import L_Ender.cataclysm.cataclysm;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -76,6 +79,8 @@ public class ServerEventHandler {
         }
 
     }
+
+
 
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event) {
@@ -197,6 +202,11 @@ public class ServerEventHandler {
                 double extraX = 0.5F * Mth.sin((float) (Math.PI + innerAngle));
                 double extraZ = 0.5F * Mth.cos(innerAngle);
                 event.getEntityLiving().level.addParticle(ParticleTypes.CRIT, true, event.getEntityLiving().getX() + extraX, event.getEntityLiving().getEyeY() + 0.5F, event.getEntityLiving().getZ() + extraZ, 0, 0, 0);
+            }
+        }
+        if (event.getEntityLiving() instanceof Ignis_Entity) {
+            if (!event.getEntityLiving().getPassengers().isEmpty() && event.getEntityLiving().getPassengers().get(0).isShiftKeyDown()) {
+                event.getEntityLiving().getPassengers().get(0).setShiftKeyDown(false);
             }
         }
     }

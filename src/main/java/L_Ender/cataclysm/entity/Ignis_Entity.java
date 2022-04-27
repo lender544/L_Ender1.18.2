@@ -240,10 +240,6 @@ public class Ignis_Entity extends Boss_monster {
             this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D));
         }
 
-        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown()) {
-            this.getPassengers().get(0).setShiftKeyDown(false);
-        }
-
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
         prevblockingProgress = blockingProgress;
         if (this.getIsBlocking() && blockingProgress < 10F) {
@@ -292,7 +288,7 @@ public class Ignis_Entity extends Boss_monster {
                     if(this.random.nextInt(2) == 0){
                         this.setAnimation(POKE_ATTACK);
                     } else {
-                        this.setAnimation(HORIZONTAL_SWING_ATTACK);
+                        this.setAnimation(POKE_ATTACK);
                     }
                 }
             }
@@ -463,6 +459,9 @@ public class Ignis_Entity extends Boss_monster {
             if (this.distanceTo(target) <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 boolean flag = target.hurt(DamageSource.mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + target.getMaxHealth() * 0.1f);
                 if (flag) {
+                    if(target.isShiftKeyDown()) {
+                        target.setShiftKeyDown(false);
+                    }
                     target.startRiding(this, true);
                     AnimationHandler.INSTANCE.sendAnimationMessage(this, POKED_ATTACK);
                 }
@@ -579,8 +578,9 @@ public class Ignis_Entity extends Boss_monster {
                 if(this.getAnimationTick() == 46) {
                     passenger.stopRiding();
                 }
-                this.yBodyRot = this.yRotO;
                 this.setYRot(this.yRotO);
+                this.yBodyRot = this.getYRot();
+                this.yHeadRot = this.getYRot();
             }
             float radius = 4F;
             float math = 0.175f;
@@ -627,13 +627,16 @@ public class Ignis_Entity extends Boss_monster {
 
     public void travel(Vec3 travelVector) {
         this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * (isInLava() ? 0.2F : 1F));
-        if (this.isEffectiveAi() && this.isInLava()) {
-            this.moveRelative(this.getSpeed(), travelVector);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-        } else {
+        if (this.getAnimation() == POKED_ATTACK) {
+            if (this.getNavigation().getPath() != null) {
+                this.getNavigation().stop();
+            }
+            travelVector = Vec3.ZERO;
             super.travel(travelVector);
+            return;
         }
+        super.travel(travelVector);
+
     }
 
     @Override
@@ -762,7 +765,10 @@ public class Ignis_Entity extends Boss_monster {
         }
 
         public void tick() {
-            Ignis_Entity.this.getNavigation().stop();
+            LivingEntity target = Ignis_Entity.this.getTarget();
+            if (target != null) {
+                Ignis_Entity.this.getLookControl().setLookAt(target, 20.0F, 20.0F);
+            }
             Ignis_Entity.this.setDeltaMovement(0, Ignis_Entity.this.getDeltaMovement().y, 0);
         }
     }

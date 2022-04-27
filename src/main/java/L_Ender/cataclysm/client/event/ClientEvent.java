@@ -1,6 +1,7 @@
 package L_Ender.cataclysm.client.event;
 
 import L_Ender.cataclysm.config.CMConfig;
+import L_Ender.cataclysm.entity.Ignis_Entity;
 import L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import L_Ender.cataclysm.init.ModEffect;
 import L_Ender.cataclysm.init.ModItems;
@@ -8,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.material.FogType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -66,6 +69,18 @@ public class ClientEvent {
             RenderSystem.setShaderFogEnd(50.0F);
         }
 
+    }
+
+    @SubscribeEvent
+    public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
+        Player player = Minecraft.getInstance().player;
+        if (player != null && player.isPassenger()) {
+            if (player.getVehicle() instanceof Ignis_Entity) {
+                if (event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
+                    Minecraft.getInstance().gui.setOverlayMessage(new TranslatableComponent("you_cant_escape"), false);
+                }
+            }
+        }
     }
 
 }

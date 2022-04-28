@@ -12,6 +12,7 @@
   "item.cataclysm.monstrous_helm2.desc": "獲得強化防禦、擊退抗性和恢復生命的增益效果。",
   "item.cataclysm.void_core.desc": "右擊方塊施放虛空符文",
   "item.cataclysm.wip.desc": "半成品",
+  "you_cant_escape": "You can't escape",
 
   "item.cataclysm.enderite_ingot": "終界合金锭",
   "item.cataclysm.ignitium_ingot": "焰魂錠",
@@ -82,6 +83,7 @@
 
   "effect.cataclysm.monstrous": "巨獸復燃",
   "effect.cataclysm.blazing_brand": "熾熱視線",
+  "effect.cataclysm.stun": "Stun",
 
   "golemhurt.sub": "終界巨像：受傷",
   "golemdeath.sub": "終界巨像：死亡",
@@ -116,5 +118,5 @@
   "advancements.cataclysm.kill_ender_guardian.title": "這傢伙的頭真小？",
   "advancements.cataclysm.kill_ender_guardian.description": "撃敗終界守衛",
   "advancements.cataclysm.kill_monstrosity.title": "損壞的地獄戰爭機器",
-  "advancements.cataclysm.kill_monstrosity.description": "撃敗獄髓巨獸"
+  "advancements.cataclysm.kill_monstrosity.description": "撃敗獄髓巨獸",
 }

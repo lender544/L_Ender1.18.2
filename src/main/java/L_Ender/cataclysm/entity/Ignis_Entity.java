@@ -286,9 +286,9 @@ public class Ignis_Entity extends Boss_monster {
             } else if (target != null && target.isAlive()) {
                 if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 5F) {
                     if(this.random.nextInt(2) == 0){
-                        this.setAnimation(POKE_ATTACK);
+                        this.setAnimation(HORIZONTAL_SWING_ATTACK);
                     } else {
-                        this.setAnimation(POKE_ATTACK);
+                        this.setAnimation(BODY_CHECK_ATTACK1);
                     }
                 }
             }

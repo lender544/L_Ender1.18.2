@@ -751,9 +751,17 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         animate(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         float walkSpeed = 0.5F;
         float walkDegree = 0.4F;
+        float idleSpeed = 0.1F;
+        float idleDegree = 0.1F;
         this.bob(root, walkSpeed * 0.2F, walkDegree * 2, false, ageInTicks, 1.0f);
         this.bob(right_arm_joint, walkSpeed * 0.15F, walkDegree * -1.2f, false, ageInTicks, 1.0f);
         this.bob(left_arm_joint, walkSpeed * 0.15F, walkDegree * -1.2f, false, ageInTicks, 1.0f);
+        this.flap(left_arm_joint, idleSpeed, idleDegree * 0.4F, false, 0, 0F, ageInTicks, 1);
+        this.flap(right_arm_joint, idleSpeed, idleDegree * 0.4F, true, 0, 0F, ageInTicks, 1);
+        this.flap(left_hand, idleSpeed, idleDegree * 0.4F, true, 0, -0.1F, ageInTicks, 1);
+        this.flap(right_hand, idleSpeed, idleDegree * 0.4F, false, 0, -0.1F, ageInTicks, 1);
+        this.flap(left_fist, idleSpeed, idleDegree * 0.4F, true, 0, -0.1F, ageInTicks, 1);
+        this.flap(right_fist, idleSpeed, idleDegree * 0.4F, false, 0, -0.1F, ageInTicks, 1);
         this.faceTarget(netHeadYaw, headPitch, 1, head);
 
         float partialTick = Minecraft.getInstance().getFrameTime();

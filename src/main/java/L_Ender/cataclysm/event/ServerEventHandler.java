@@ -13,9 +13,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.EntityDamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -90,14 +89,28 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
-    public void onLivingJump(LivingEvent.LivingJumpEvent event) {
-        if (event.getEntity() instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            if (entity.hasEffect(ModEffect.EFFECTSTUN.get()) && entity.isOnGround()) {
-                entity.setDeltaMovement(0, 0, 0);
+    public static void modifiyVisibility(LivingEvent.LivingVisibilityEvent event) {
+        if (event.getLookingEntity()instanceof LivingEntity living) {
+            if (living.hasEffect(ModEffect.EFFECTSTUN.get()))
+                event.modifyVisibility(0.01);
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingSetTargetEvent(LivingSetAttackTargetEvent event) {
+        if (event.getTarget() != null && event.getEntityLiving() instanceof Mob) {
+            if (event.getEntityLiving().hasEffect(ModEffect.EFFECTSTUN.get())) {
+                ((Mob) event.getEntityLiving()).setTarget(null);
             }
         }
+    }
 
+    @SubscribeEvent
+    public void onLivingJump(LivingEvent.LivingJumpEvent event) {
+        LivingEntity entity = event.getEntityLiving();
+        if (entity.getEffect(ModEffect.EFFECTSTUN.get()) != null){
+            entity.setDeltaMovement(entity.getDeltaMovement().x(), 0.0D, entity.getDeltaMovement().z());
+        }
     }
 
     @SubscribeEvent

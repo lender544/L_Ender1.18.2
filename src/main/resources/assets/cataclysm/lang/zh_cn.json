@@ -12,6 +12,7 @@
   "item.cataclysm.monstrous_helm2.desc": "获得强化防御、击退抗性和生命恢复的增益效果。",
   "item.cataclysm.void_core.desc": "右键方块召唤虚空符文",
   "item.cataclysm.wip.desc": "未实现",
+  "you_cant_escape": "You can't escape",
 
   "item.cataclysm.enderite_ingot": "末影合金锭",
   "item.cataclysm.ignitium_ingot": "焰魔锭",
@@ -82,6 +83,7 @@
 
   "effect.cataclysm.monstrous": "骇人之恶",
   "effect.cataclysm.blazing_brand": "炽热视线",
+  "effect.cataclysm.stun": "Stun",
 
   "golemhurt.sub": "末影傀儡：受伤",
   "golemdeath.sub": "末影傀儡：死亡",

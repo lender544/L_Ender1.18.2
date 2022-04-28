@@ -12,6 +12,7 @@
   "item.cataclysm.monstrous_helm2.desc": "방어력,넉백저항,생명력재생이 강해지는 버프가 걸린다.",
   "item.cataclysm.void_core.desc": "사용시 공허의 룬을 사용 할 수 있다.",
   "item.cataclysm.wip.desc": "개발자 아이템 추가될 수 도 있고 변경될 수 도 있고 없어질 수 도 있음",
+  "you_cant_escape": "넌 벗어날 수 없다.",
 
   "item.cataclysm.enderite_ingot": "엔더라이트 주괴",
   "item.cataclysm.ignitium_ingot": "이그니티움 주괴",
@@ -83,6 +84,7 @@
 
   "effect.cataclysm.monstrous": "괴력",
   "effect.cataclysm.blazing_brand": "불타는 낙인",
+  "effect.cataclysm.stun": "기절",
 
   "golemhurt.sub": "엔더 골렘이 상처를 입음",
   "golemdeath.sub": "엔더 골렘이 죽음",

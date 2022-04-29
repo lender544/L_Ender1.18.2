@@ -57,10 +57,9 @@ public class ServerEventHandler {
                 }
             }
         }
-        if(event.getEntityLiving().hasEffect(ModEffect.EFFECTSTUN.get())){
-            event.getEntityLiving().removeEffect(ModEffect.EFFECTSTUN.get());
-        }
-
+        //  if(event.getEntityLiving().hasEffect(ModEffect.EFFECTSTUN.get())){
+         //   event.getEntityLiving().removeEffect(ModEffect.EFFECTSTUN.get());
+        //}
     }
     @SubscribeEvent
     public void onLivingAttack(LivingAttackEvent event) {
@@ -79,8 +78,6 @@ public class ServerEventHandler {
 
     }
 
-
-
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event) {
         if (event.isCancelable() && event.getEntityLiving().hasEffect(ModEffect.EFFECTSTUN.get())) {
@@ -88,13 +85,13 @@ public class ServerEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void modifiyVisibility(LivingEvent.LivingVisibilityEvent event) {
-        if (event.getLookingEntity()instanceof LivingEntity living) {
-            if (living.hasEffect(ModEffect.EFFECTSTUN.get()))
-                event.modifyVisibility(0.01);
-        }
-    }
+  //  @SubscribeEvent
+  //  public static void modifiyVisibility(LivingEvent.LivingVisibilityEvent event) {
+   //     if (event.getLookingEntity() instanceof LivingEntity living) {
+    //        if (living.hasEffect(ModEffect.EFFECTSTUN.get()))
+     //           event.modifyVisibility(0.01);
+      //  }
+    //}
 
     @SubscribeEvent
     public void onLivingSetTargetEvent(LivingSetAttackTargetEvent event) {

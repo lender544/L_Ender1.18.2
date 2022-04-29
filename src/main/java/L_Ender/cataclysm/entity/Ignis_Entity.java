@@ -313,7 +313,8 @@ public class Ignis_Entity extends Boss_monster {
         if (this.getAnimation() == HORIZONTAL_SWING_ATTACK) {
             if (this.getAnimationTick() == 31) {
                 this.playSound(ModSounds.STRONGSWING.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(6.0f,6,170,1.1f,0.08f,100,5 ,300);
+               // AreaAttack(6.0f,6,170,1.1f,0.08f,100,5 ,300);
+                AreaAttack(6.0f,6,250,1.1f,0.1f,100,5 ,300);
             }
 
         }
@@ -351,7 +352,7 @@ public class Ignis_Entity extends Boss_monster {
 
         if (this.getAnimation() == BODY_CHECK_ATTACK1 || this.getAnimation() == BODY_CHECK_ATTACK2) {
             if (this.getAnimationTick() == 25) {
-                BodyCheckAttack(3.0f,6,120,1.0f,0.05f,40,60);
+                BodyCheckAttack(3.0f,6,120,0.8f,0.03f,40,80);
             }
 
         }
@@ -435,7 +436,7 @@ public class Ignis_Entity extends Boss_monster {
                     if (flag) {
                         this.playSound(SoundEvents.ANVIL_LAND, 1.5f, 0.8F + this.getRandom().nextFloat() * 0.1F);
                         if (slowticks > 0){
-                            entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), slowticks, 1), this);
+                            entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), slowticks, 1,false, false, true));
 
                         }
                     }
@@ -840,12 +841,12 @@ public class Ignis_Entity extends Boss_monster {
         public void tick() {
             LivingEntity target = Ignis_Entity.this.getTarget();
             if (Ignis_Entity.this.getAnimationTick() < 25 && target != null) {
-                Ignis_Entity.this.lookAt(target, 30.0F, 30.0F);
+                Ignis_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
             } else {
                 Ignis_Entity.this.setYRot(Ignis_Entity.this.yRotO);
             }
             if (Ignis_Entity.this.getAnimationTick() == 20 && target != null){
-                Ignis_Entity.this.setDeltaMovement((target.getX() - Ignis_Entity.this.getX()) * 0.25D, 0, (target.getZ() - Ignis_Entity.this.getZ()) * 0.25D);
+                Ignis_Entity.this.setDeltaMovement((target.getX() - Ignis_Entity.this.getX()) * 0.25D, (target.getY() - Ignis_Entity.this.getY()) * 0.25D, (target.getZ() - Ignis_Entity.this.getZ()) * 0.25D);
 
             }
 

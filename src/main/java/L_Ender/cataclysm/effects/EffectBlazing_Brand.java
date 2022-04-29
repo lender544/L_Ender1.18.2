@@ -10,7 +10,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 public class EffectBlazing_Brand extends MobEffect {
 
     public EffectBlazing_Brand() {
-        super(MobEffectCategory.HARMFUL, 0X865337);
+        super(MobEffectCategory.HARMFUL, 0xDC143C);
         this.addAttributeModifier(Attributes.ARMOR, "68078724-8653-42D5-A245-9D14A1F54685", -4.0D, AttributeModifier.Operation.ADDITION);
         this.addAttributeModifier(Attributes.ARMOR_TOUGHNESS, "B237E76D-15E8-4513-A735-55BB25C33603", -1.0D, AttributeModifier.Operation.ADDITION);
     }

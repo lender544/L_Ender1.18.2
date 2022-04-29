@@ -702,7 +702,7 @@ public class Ignis_Entity extends Boss_monster {
                     Ignis_Entity.this.push(f1,0, f2);
                 }
             }
-            if (Ignis_Entity.this.getAnimationTick() == 36 && shouldFollowUp(3.5f) && Ignis_Entity.this.getRandom().nextFloat() < 0.9f) {
+            if (Ignis_Entity.this.getAnimationTick() == 36 && shouldFollowUp(3.5f) && Ignis_Entity.this.getRandom().nextFloat() < 0.3f) {
                 AnimationHandler.INSTANCE.sendAnimationMessage(Ignis_Entity.this, BODY_CHECK_ATTACK2);
             }
 
@@ -846,7 +846,7 @@ public class Ignis_Entity extends Boss_monster {
                 Ignis_Entity.this.setYRot(Ignis_Entity.this.yRotO);
             }
             if (Ignis_Entity.this.getAnimationTick() == 20 && target != null){
-                Ignis_Entity.this.setDeltaMovement((target.getX() - Ignis_Entity.this.getX()) * 0.25D, (target.getY() - Ignis_Entity.this.getY()) * 0.25D, (target.getZ() - Ignis_Entity.this.getZ()) * 0.25D);
+                Ignis_Entity.this.setDeltaMovement((target.getX() - Ignis_Entity.this.getX()) * 0.25D, 0, (target.getZ() - Ignis_Entity.this.getZ()) * 0.25D);
 
             }
 

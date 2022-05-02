@@ -58,6 +58,7 @@ public class cataclysm {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::setupClient);
+        bus.addListener(this::onModConfigEvent);
         bus.addListener(this::setupEntityModelLayers);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHolder.COMMON_SPEC, "cataclysm.toml");
         ModItems.ITEMS.register(bus);

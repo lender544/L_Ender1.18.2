@@ -20,6 +20,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
@@ -78,6 +79,7 @@ public class Ignis_Entity extends Boss_monster {
         this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
+        this.maxUpStep = 1.5F;
     }
 
     @Override
@@ -233,6 +235,10 @@ public class Ignis_Entity extends Boss_monster {
 
     public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
         return false;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.IGNIS_AMBIENT.get();
     }
 
     public void tick() {

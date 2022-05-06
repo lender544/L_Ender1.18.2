@@ -294,7 +294,7 @@ public class Ignis_Entity extends Boss_monster {
                     if(this.random.nextInt(2) == 0){
                         this.setAnimation(HORIZONTAL_SWING_ATTACK);
                     } else {
-                        this.setAnimation(BODY_CHECK_ATTACK1);
+                        this.setAnimation(SHIELD_SMASH_ATTACK);
                     }
                 }
             }

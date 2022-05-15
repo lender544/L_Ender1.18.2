@@ -488,30 +488,13 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         animator.resetKeyframe(20);
 
         animator.setAnimation(Ignis_Entity.POKE_ATTACK);
-        animator.startKeyframe(20);
-        animator.rotate(root, (float)Math.toRadians(10F), 0, 0);
-        animator.rotate(upperbody, (float)Math.toRadians(10F), (float)Math.toRadians(30F), (float)Math.toRadians(15F));
-        animator.rotate(right_arm_joint, (float)Math.toRadians(10F), (float)Math.toRadians(20F), (float)Math.toRadians(50F));
-        animator.rotate(right_hand, (float)Math.toRadians(-42.5F), (float)Math.toRadians(-12.5F), (float)Math.toRadians(35F));
-        animator.rotate(head, (float)Math.toRadians(-5F), (float)Math.toRadians(-12.5F), 0);
-        animator.rotate(left_arm_joint, 0, (float)Math.toRadians(-45F), (float)Math.toRadians(-30F));
-        animator.rotate(left_hand, (float)Math.toRadians(-17.5F), (float)Math.toRadians(-17.5F), (float)Math.toRadians(-15F));
-        animator.endKeyframe();
-        animator.setStaticKeyframe(15);
+        poke(20,15,15);
 
-        animator.startKeyframe(5);
-        animator.rotate(root, 0, (float)Math.toRadians(-32.5F), 0);
-        animator.rotate(upperbody, (float)Math.toRadians(7.5F), (float)Math.toRadians(-42.5F), (float)Math.toRadians(-15F));
-        animator.rotate(right_arm_joint, (float)Math.toRadians(-62.5F), (float)Math.toRadians(7.5F), (float)Math.toRadians(55F));
-        animator.rotate(right_hand, (float)Math.toRadians(15F), (float)Math.toRadians(57.5F), (float)Math.toRadians(20F));
-        animator.rotate(right_fist, (float)Math.toRadians(72.5F), 0, 0);
-        animator.rotate(head, (float)Math.toRadians(-10F), (float)Math.toRadians(67.5F), (float)Math.toRadians(-22.5F));
-        animator.rotate(left_arm_joint, (float)Math.toRadians(105F), (float)Math.toRadians(-15F), (float)Math.toRadians(-17.5F));
-        animator.rotate(left_hand, (float)Math.toRadians(-62.5F), (float)Math.toRadians(-17.5F), (float)Math.toRadians(-15F));
-        animator.endKeyframe();
-        animator.setStaticKeyframe(10);
-        animator.resetKeyframe(15);
+        animator.setAnimation(Ignis_Entity.POKE_ATTACK2);
+        poke(17,12,12);
 
+        animator.setAnimation(Ignis_Entity.POKE_ATTACK3);
+        poke(15,10,10);
 
         animator.setAnimation(Ignis_Entity.POKED_ATTACK);
         animator.startKeyframe(0);
@@ -759,11 +742,39 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         animator.rotate(right_hand, (float)Math.toRadians(47.5F), (float)Math.toRadians(-20F), (float)Math.toRadians(-12.5F));
         animator.rotate(right_fist, (float)Math.toRadians(-30F), (float)Math.toRadians(-2.5F), (float)Math.toRadians(-17.5F));
         animator.rotate(left_arm_joint, (float)Math.toRadians(20F), (float)Math.toRadians(30F), (float)Math.toRadians(67.5F));
-        animator.rotate(left_hand, (float)Math.toRadians(37.5F), (float)Math.toRadians(37.5F), (float)Math.toRadians(-20F));
+        animator.rotate(left_hand, (float)Math.toRadians(37.5F), (float)Math.toRadians(37.5F), (float)Math.toRadians(-12.5F));
         animator.endKeyframe();
         animator.setStaticKeyframe(20);
         animator.resetKeyframe(15);
     }
+
+    private void poke(int start, int setstatic, int reset){
+        animator.startKeyframe(start);
+        animator.rotate(root, (float)Math.toRadians(10F), 0, 0);
+        animator.rotate(upperbody, (float)Math.toRadians(10F), (float)Math.toRadians(30F), (float)Math.toRadians(15F));
+        animator.rotate(right_arm_joint, (float)Math.toRadians(10F), (float)Math.toRadians(20F), (float)Math.toRadians(50F));
+        animator.rotate(right_hand, (float)Math.toRadians(-42.5F), (float)Math.toRadians(-12.5F), (float)Math.toRadians(35F));
+        animator.rotate(head, (float)Math.toRadians(-5F), (float)Math.toRadians(-12.5F), 0);
+        animator.rotate(left_arm_joint, 0, (float)Math.toRadians(-45F), (float)Math.toRadians(-30F));
+        animator.rotate(left_hand, (float)Math.toRadians(-17.5F), (float)Math.toRadians(-17.5F), (float)Math.toRadians(-15F));
+        animator.endKeyframe();
+
+        animator.setStaticKeyframe(setstatic);
+
+        animator.startKeyframe(5);
+        animator.rotate(root, 0, (float)Math.toRadians(-32.5F), 0);
+        animator.rotate(upperbody, (float)Math.toRadians(7.5F), (float)Math.toRadians(-42.5F), (float)Math.toRadians(-15F));
+        animator.rotate(right_arm_joint, (float)Math.toRadians(-62.5F), (float)Math.toRadians(7.5F), (float)Math.toRadians(55F));
+        animator.rotate(right_hand, (float)Math.toRadians(15F), (float)Math.toRadians(57.5F), (float)Math.toRadians(20F));
+        animator.rotate(right_fist, (float)Math.toRadians(72.5F), 0, 0);
+        animator.rotate(head, (float)Math.toRadians(-10F), (float)Math.toRadians(67.5F), (float)Math.toRadians(-22.5F));
+        animator.rotate(left_arm_joint, (float)Math.toRadians(105F), (float)Math.toRadians(-15F), (float)Math.toRadians(-17.5F));
+        animator.rotate(left_hand, (float)Math.toRadians(-62.5F), (float)Math.toRadians(-17.5F), (float)Math.toRadians(-15F));
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(reset);
+    }
+
 
     private void bodycheck(){
         animator.startKeyframe(12);
@@ -802,19 +813,22 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         float walkDegree = 0.4F;
         float idleSpeed = 0.1F;
         float idleDegree = 0.1F;
+        float partialTick = Minecraft.getInstance().getFrameTime();
+        float blockingProgress = entity.prevblockingProgress + (entity.blockingProgress - entity.prevblockingProgress) * partialTick;
         this.bob(root, walkSpeed * 0.2F, walkDegree * 2, false, ageInTicks, 1.0f);
         this.bob(right_arm_joint, walkSpeed * 0.15F, walkDegree * -1.2f, false, ageInTicks, 1.0f);
         this.bob(left_arm_joint, walkSpeed * 0.15F, walkDegree * -1.2f, false, ageInTicks, 1.0f);
-        this.flap(left_arm_joint, idleSpeed, idleDegree * 0.4F, false, 0, 0F, ageInTicks, 1);
-        this.flap(right_arm_joint, idleSpeed, idleDegree * 0.4F, true, 0, 0F, ageInTicks, 1);
-        this.flap(left_hand, idleSpeed, idleDegree * 0.4F, true, 0, -0.1F, ageInTicks, 1);
-        this.flap(right_hand, idleSpeed, idleDegree * 0.4F, false, 0, -0.1F, ageInTicks, 1);
-        this.flap(left_fist, idleSpeed, idleDegree * 0.4F, true, 0, -0.1F, ageInTicks, 1);
-        this.flap(right_fist, idleSpeed, idleDegree * 0.4F, false, 0, -0.1F, ageInTicks, 1);
+        if(blockingProgress < 10) {
+            this.flap(left_arm_joint, idleSpeed, idleDegree * 0.4F, false, 0, 0F, ageInTicks, 1);
+            this.flap(left_hand, idleSpeed, idleDegree * 0.4F, true, 0, -0.1F, ageInTicks, 1);
+            this.flap(left_fist, idleSpeed, idleDegree * 0.4F, true, 0, -0.1F, ageInTicks, 1);
+            this.flap(right_arm_joint, idleSpeed, idleDegree * 0.4F, true, 0, 0F, ageInTicks, 1);
+            this.flap(right_hand, idleSpeed, idleDegree * 0.4F, false, 0, -0.1F, ageInTicks, 1);
+            this.flap(right_fist, idleSpeed, idleDegree * 0.4F, false, 0, -0.1F, ageInTicks, 1);
+        }
+
         this.faceTarget(netHeadYaw, headPitch, 1, head);
 
-        float partialTick = Minecraft.getInstance().getFrameTime();
-        float blockingProgress = entity.prevblockingProgress + (entity.blockingProgress - entity.prevblockingProgress) * partialTick;
 
         progressRotationPrev(root,blockingProgress,0, (float)Math.toRadians(17.5F), 0, 10f);
         progressRotationPrev(upperbody,blockingProgress,0, (float)Math.toRadians(10F), (float)Math.toRadians(5F), 10f);

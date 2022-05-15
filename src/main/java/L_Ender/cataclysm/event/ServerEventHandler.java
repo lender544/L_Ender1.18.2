@@ -214,11 +214,6 @@ public class ServerEventHandler {
                 event.getEntityLiving().level.addParticle(ParticleTypes.CRIT, true, event.getEntityLiving().getX() + extraX, event.getEntityLiving().getEyeY() + 0.5F, event.getEntityLiving().getZ() + extraZ, 0, 0, 0);
             }
         }
-        if (event.getEntityLiving() instanceof Ignis_Entity) {
-            if (!event.getEntityLiving().getPassengers().isEmpty() && event.getEntityLiving().getPassengers().get(0).isShiftKeyDown()) {
-                event.getEntityLiving().getPassengers().get(0).setShiftKeyDown(false);
-            }
-        }
     }
 }
 

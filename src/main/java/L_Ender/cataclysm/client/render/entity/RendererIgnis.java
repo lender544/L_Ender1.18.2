@@ -2,12 +2,15 @@ package L_Ender.cataclysm.client.render.entity;
 
 
 import L_Ender.cataclysm.client.model.entity.ModelIgnis;
+import L_Ender.cataclysm.client.render.RenderUtils;
 import L_Ender.cataclysm.entity.Ignis_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -28,8 +31,12 @@ public class RendererIgnis extends MobRenderer<Ignis_Entity, ModelIgnis> {
     }
 
     @Override
-    protected void scale(Ignis_Entity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-        matrixStackIn.scale(1.0F, 1.0F, 1.0F);
+    public void render(Ignis_Entity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        if (entity.getAnimation() == Ignis_Entity.HORIZONTAL_SWING_ATTACK || entity.getAnimation() == Ignis_Entity.SWING_ATTACK) {
+            Vec3 bladePos = RenderUtils.getWorldPosFromModel(entity, entityYaw, model.blade2);
+            entity.setSocketPosArray(0, bladePos);
+        }
     }
 
     protected int getBlockLightLevel(Ignis_Entity entityIn, BlockPos pos) {

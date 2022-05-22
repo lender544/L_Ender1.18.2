@@ -33,7 +33,8 @@ public class RendererIgnis extends MobRenderer<Ignis_Entity, ModelIgnis> {
     @Override
     public void render(Ignis_Entity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        if (entity.getAnimation() == Ignis_Entity.HORIZONTAL_SWING_ATTACK || entity.getAnimation() == Ignis_Entity.SWING_ATTACK) {
+        if (entity.getAnimation() == Ignis_Entity.HORIZONTAL_SWING_ATTACK
+                || entity.getAnimation() == Ignis_Entity.SWING_ATTACK) {
             Vec3 bladePos = RenderUtils.getWorldPosFromModel(entity, entityYaw, model.blade2);
             entity.setSocketPosArray(0, bladePos);
         }

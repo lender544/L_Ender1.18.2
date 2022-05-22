@@ -179,7 +179,6 @@ public class Ignis_Entity extends Boss_monster {
             }
         }
 
-
         if (!damageSourceIn.isBypassArmor() && !flag && this.getIsShield()) {
             Vec3 vector3d2 = damageSourceIn.getSourcePosition();
             if (vector3d2 != null) {
@@ -332,21 +331,23 @@ public class Ignis_Entity extends Boss_monster {
             if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.getHealth() <= this.getMaxHealth() / 2.0F && this.getBossPhase() < 1) {
                 this.setAnimation(PHASE_2);
             } else if (target != null && target.isAlive()) {
-                if (!isNoAi() && this.getAnimation() == NO_ANIMATION) {
-                    if (this.distanceToSqr(target) >= 64 && this.distanceToSqr(target) <= 1024.0D && target.isOnGround() && this.getRandom().nextFloat() * 100.0F < 0.9f) {
-                        this.setAnimation(SMASH_IN_AIR);
-                    } else if (this.distanceTo(target) < 5.5F && this.getRandom().nextFloat() * 100.0F < 10f) {
-                        Animation animation = getRandomPoke(random);
-                        this.setAnimation(animation);
-                    } else if (this.distanceTo(target) < 5F && this.getRandom().nextFloat() * 100.0F < 8f) {
+                if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceToSqr(target) >= 64 && this.distanceToSqr(target) <= 1024.0D && target.isOnGround() && this.getRandom().nextFloat() * 100.0F < 0.9f) {
+                    this.setAnimation(SMASH_IN_AIR);
+                } else if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 5.5F && this.getRandom().nextFloat() * 100.0F < 10f) {
+                    Animation animation = getRandomPoke(random);
+                    this.setAnimation(animation);
+                } else if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 5F && this.getRandom().nextFloat() * 100.0F < 8f) {
+                    if (this.random.nextInt(3) == 0) {
+                        this.setAnimation(HORIZONTAL_SWING_ATTACK);
+                    }else{
                         this.setAnimation(SWING_ATTACK);
-                    } else if (this.distanceTo(target) < 3F && this.getRandom().nextFloat() * 100.0F < 28f) {
-                        if (this.random.nextInt(3) == 0 && body_check_cooldown <= 0) {
-                            body_check_cooldown = BODY_CHECK_COOLDOWN;
-                            this.setAnimation(BODY_CHECK_ATTACK1);
-                        } else {
-                            this.setAnimation(SHIELD_SMASH_ATTACK);
-                        }
+                    }
+                } else if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 3F && this.getRandom().nextFloat() * 100.0F < 28f) {
+                    if (this.random.nextInt(3) == 0 && body_check_cooldown <= 0) {
+                        body_check_cooldown = BODY_CHECK_COOLDOWN;
+                        this.setAnimation(BODY_CHECK_ATTACK1);
+                    } else {
+                        this.setAnimation(SHIELD_SMASH_ATTACK);
                     }
                 }
             }

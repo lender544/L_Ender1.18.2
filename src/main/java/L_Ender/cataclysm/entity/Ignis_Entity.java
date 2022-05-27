@@ -74,15 +74,20 @@ public class Ignis_Entity extends Boss_monster {
     public static final Animation BODY_CHECK_ATTACK3 = Animation.create(62);
     public static final Animation BODY_CHECK_ATTACK4 = Animation.create(62);
     public static final Animation BURNS_THE_EARTH = Animation.create(67);
+    public static final Animation MULTI_SWING = Animation.create(120);
     public static final int BODY_CHECK_COOLDOWN = 200;
     private static final EntityDataAccessor<Boolean> IS_BLOCKING = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_SHIELD_BREAK = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_SHIELD = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_SWORD = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> BOSS_PHASE = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.INT);
     private Vec3 prevBladePos = new Vec3(0, 0, 0);
     private int body_check_cooldown = 0;
     private int timeWithoutTarget;
     public float blockingProgress;
+    public float swordProgress;
     public float prevblockingProgress;
+    public float prevswordProgress;
 
 
     public Ignis_Entity(EntityType entity, Level world) {
@@ -116,7 +121,8 @@ public class Ignis_Entity extends Boss_monster {
                 BODY_CHECK_ATTACK1,
                 SMASH,
                 SMASH_IN_AIR,
-                BURNS_THE_EARTH};
+                BURNS_THE_EARTH,
+                MULTI_SWING};
     }
 
     protected void registerGoals() {
@@ -199,17 +205,21 @@ public class Ignis_Entity extends Boss_monster {
         super.defineSynchedData();
         this.entityData.define(IS_BLOCKING, false);
         this.entityData.define(IS_SHIELD, false);
+        this.entityData.define(IS_SHIELD_BREAK, false);
+        this.entityData.define(IS_SWORD, false);
         this.entityData.define(BOSS_PHASE, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("BossPhase", this.getBossPhase());
+        compound.putBoolean("Is_Shield_Break", this.getIsShieldBreak());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setBossPhase(compound.getInt("BossPhase"));
+        this.setIsShieldBreak(compound.getBoolean("Is_Shield_Break"));
         if (this.hasCustomName()) {
             this.bossInfo.setName(this.getDisplayName());
         }
@@ -231,6 +241,21 @@ public class Ignis_Entity extends Boss_monster {
         return this.entityData.get(IS_SHIELD);
     }
 
+    public void setIsSword(boolean isSword) {
+        this.entityData.set(IS_SWORD, isSword);
+    }
+
+    public boolean getIsSword() {
+        return this.entityData.get(IS_SWORD);
+    }
+
+    public void setIsShieldBreak(boolean isShieldBreak) {
+        this.entityData.set(IS_SHIELD_BREAK, isShieldBreak);
+    }
+
+    public boolean getIsShieldBreak() {
+        return this.entityData.get(IS_SHIELD_BREAK);
+    }
 
     public void setBossPhase(int bossPhase) {
         this.entityData.set(BOSS_PHASE, bossPhase);
@@ -287,13 +312,20 @@ public class Ignis_Entity extends Boss_monster {
 
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
         prevblockingProgress = blockingProgress;
+        prevswordProgress = swordProgress;
         if (this.getIsBlocking() && blockingProgress < 10F) {
             blockingProgress++;
         }
         if (!this.getIsBlocking() && blockingProgress > 0F) {
             blockingProgress--;
-
         }
+        if (this.getIsSword() && swordProgress < 10F) {
+            swordProgress++;
+        }
+        if (!this.getIsSword() && swordProgress > 0F) {
+            swordProgress--;
+        }
+
         if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown()) {
             this.getPassengers().get(0).setShiftKeyDown(false);
         }
@@ -312,14 +344,24 @@ public class Ignis_Entity extends Boss_monster {
             timeWithoutTarget++;
             if (target != null) {
                 timeWithoutTarget = 0;
-                if(!this.getIsBlocking()) {
-                    this.setIsBlocking(true);
+                if(this.getIsShieldBreak()) {
+                    if (!this.getIsSword()) {
+                        this.setIsSword(true);
+                    }
+                }else{
+                    if (!this.getIsBlocking()) {
+                        this.setIsBlocking(true);
+                    }
                 }
             }
 
-            if (timeWithoutTarget > 150 && this.getIsBlocking() && target == null) {
+            if (timeWithoutTarget > 150 && (this.getIsBlocking() || this.getIsSword()) && target == null) {
                 timeWithoutTarget = 0;
-                this.setIsBlocking(false);
+                if(this.getIsShieldBreak()) {
+                    this.setIsSword(false);
+                }else{
+                    this.setIsBlocking(false);
+                }
             }
 
             if (this.getBossPhase() > 0){

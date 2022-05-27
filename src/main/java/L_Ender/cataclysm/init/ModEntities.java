@@ -99,6 +99,20 @@ public class ModEntities {
             .updateInterval(20)
             .build(cataclysm.MODID + ":cm_falling_block"));
 
+    public static final RegistryObject<EntityType<Ignis_Flame_Entity>> IGNIS_FLAME = ENTITY_TYPE.register("ignis_flame", () -> EntityType.Builder.<Ignis_Flame_Entity>of(Ignis_Flame_Entity::new, MobCategory.MISC)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(6)
+            .updateInterval(2)
+            .fireImmune()
+            .build(cataclysm.MODID + ":ignis_flame"));
+
+    public static final RegistryObject<EntityType<Ignis_Fireball_Entity>> IGNIS_FIREBALL = ENTITY_TYPE.register("ignis_fireball", () -> EntityType.Builder.of(Ignis_Fireball_Entity::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build(cataclysm.MODID + ":ignis_flame"));
+
+
 
 
 

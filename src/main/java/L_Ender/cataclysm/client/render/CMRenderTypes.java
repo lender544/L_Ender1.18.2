@@ -25,4 +25,18 @@ public class CMRenderTypes extends RenderType {
                 .setOverlayState(OVERLAY)
                 .createCompositeState(false));
     }
+
+    public static RenderType getfullBright(ResourceLocation locationIn) {
+        RenderStateShard.TextureStateShard renderstate$texturestate = new RenderStateShard.TextureStateShard(locationIn, false, false);
+        return create("full_bright", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType
+                .CompositeState
+                .builder()
+                .setTextureState(renderstate$texturestate)
+                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setCullState(NO_CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .createCompositeState(false));
+    }
 }

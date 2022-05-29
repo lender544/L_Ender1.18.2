@@ -35,6 +35,7 @@ public class RendererIgnis extends MobRenderer<Ignis_Entity, ModelIgnis> {
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         if (entity.getAnimation() == Ignis_Entity.HORIZONTAL_SWING_ATTACK
                 || entity.getAnimation() == Ignis_Entity.SWING_ATTACK
+                || entity.getAnimation() == Ignis_Entity.BURNS_THE_EARTH
                 || entity.getAnimation() == Ignis_Entity.BURNS_THE_EARTH) {
             Vec3 bladePos = RenderUtils.getWorldPosFromModel(entity, entityYaw, model.blade2);
             entity.setSocketPosArray(0, bladePos);

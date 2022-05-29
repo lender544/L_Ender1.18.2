@@ -74,7 +74,7 @@ public class Ignis_Entity extends Boss_monster {
     public static final Animation BODY_CHECK_ATTACK3 = Animation.create(62);
     public static final Animation BODY_CHECK_ATTACK4 = Animation.create(62);
     public static final Animation BURNS_THE_EARTH = Animation.create(67);
-    public static final Animation MULTI_SWING = Animation.create(120);
+    public static final Animation TRIPLE_SWING = Animation.create(139);
     public static final int BODY_CHECK_COOLDOWN = 200;
     private static final EntityDataAccessor<Boolean> IS_BLOCKING = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_SHIELD_BREAK = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
@@ -122,7 +122,7 @@ public class Ignis_Entity extends Boss_monster {
                 SMASH,
                 SMASH_IN_AIR,
                 BURNS_THE_EARTH,
-                MULTI_SWING};
+                TRIPLE_SWING};
     }
 
     protected void registerGoals() {
@@ -348,9 +348,15 @@ public class Ignis_Entity extends Boss_monster {
                     if (!this.getIsSword()) {
                         this.setIsSword(true);
                     }
+                    if (this.getIsBlocking()) {
+                        this.setIsBlocking(false);
+                    }
                 }else{
                     if (!this.getIsBlocking()) {
                         this.setIsBlocking(true);
+                    }
+                    if (this.getIsSword()) {
+                        this.setIsSword(false);
                     }
                 }
             }
@@ -375,24 +381,24 @@ public class Ignis_Entity extends Boss_monster {
         if (this.isAlive()) {
             if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.getHealth() <= this.getMaxHealth() / 2.0F && this.getBossPhase() < 1) {
                 this.setAnimation(PHASE_2);
-            } else if (target != null && target.isAlive()) {
-                if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceToSqr(target) >= 64 && this.distanceToSqr(target) <= 1024.0D && target.isOnGround() && this.getRandom().nextFloat() * 100.0F < 0.9f) {
+            } else if (target != null && target.isAlive() && (blockingProgress == 10 || swordProgress == 10)) {
+                if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceToSqr(target) >= 64 && this.distanceToSqr(target) <= 1024.0D && target.isOnGround() && this.getRandom().nextFloat() * 100.0F < 0.9f && this.getIsShield()) {
                     this.setAnimation(SMASH_IN_AIR);
                 } else if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 5.5F && this.getRandom().nextFloat() * 100.0F < 10f) {
                     Animation animation = getRandomPoke(random);
-                    this.setAnimation(BURNS_THE_EARTH);
+                    this.setAnimation(TRIPLE_SWING);
                 } else if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 5F && this.getRandom().nextFloat() * 100.0F < 8f) {
                     if (this.random.nextInt(3) == 0) {
-                        this.setAnimation(BURNS_THE_EARTH);
+                        this.setAnimation(TRIPLE_SWING);
                     }else{
-                        this.setAnimation(BURNS_THE_EARTH);
+                        this.setAnimation(TRIPLE_SWING);
                     }
                 } else if (!isNoAi() && this.getAnimation() == NO_ANIMATION && this.distanceTo(target) < 3F && this.getRandom().nextFloat() * 100.0F < 28f) {
                     if (this.random.nextInt(3) == 0 && body_check_cooldown <= 0) {
                         body_check_cooldown = BODY_CHECK_COOLDOWN;
-                        this.setAnimation(BURNS_THE_EARTH);
+                        this.setAnimation(TRIPLE_SWING);
                     } else {
-                        this.setAnimation(BURNS_THE_EARTH);
+                        this.setAnimation(TRIPLE_SWING);
                     }
                 }
             }
@@ -638,70 +644,49 @@ public class Ignis_Entity extends Boss_monster {
         }
     }
 
+    private void Flameswing(){
+        Vec3 bladePos = socketPosArray[0];
+        int snowflakeDensity = 4;
+        float snowflakeRandomness = 0.5f;
+        double length = prevBladePos.subtract(bladePos).length();
+        int numClouds = (int) Math.floor(2 * length);
+        for (int i = 0; i < numClouds; i++) {
+            double x = prevBladePos.x + i * (bladePos.x - prevBladePos.x) / numClouds;
+            double y = prevBladePos.y + i * (bladePos.y - prevBladePos.y) / numClouds;
+            double z = prevBladePos.z + i * (bladePos.z - prevBladePos.z) / numClouds;
+            for (int j = 0; j < snowflakeDensity; j++) {
+                float xOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
+                float yOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
+                float zOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
+                if (this.getBossPhase() > 0) {
+                    level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
+                }else{
+                    level.addParticle(ParticleTypes.FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
+                }
+            }
+        }
+    }
+
     private void SwingParticles() {
         if (level.isClientSide) {
             Vec3 bladePos = socketPosArray[0];
-            int snowflakeDensity = 4;
-            float snowflakeRandomness = 0.5f;
-            double length = prevBladePos.subtract(bladePos).length();
-            int numClouds = (int) Math.floor(2 * length);
             if(this.getAnimation() == HORIZONTAL_SWING_ATTACK) {
                 if (this.getAnimationTick() > 27 && this.getAnimationTick() < 33) {
-                    for (int i = 0; i < numClouds; i++) {
-                        double x = prevBladePos.x + i * (bladePos.x - prevBladePos.x) / numClouds;
-                        double y = prevBladePos.y + i * (bladePos.y - prevBladePos.y) / numClouds;
-                        double z = prevBladePos.z + i * (bladePos.z - prevBladePos.z) / numClouds;
-                        for (int j = 0; j < snowflakeDensity; j++) {
-                            float xOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            float yOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            float zOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            if (this.getBossPhase() > 0) {
-                                level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
-                            }else{
-                                level.addParticle(ParticleTypes.FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
-                            }
-                        }
-                    }
+                    Flameswing();
                 }
             }
             if(this.getAnimation() == SWING_ATTACK) {
                 if (this.getAnimationTick() > 25 && this.getAnimationTick() < 37) {
-                    for (int i = 0; i < numClouds; i++) {
-                        double x = prevBladePos.x + i * (bladePos.x - prevBladePos.x) / numClouds;
-                        double y = prevBladePos.y + i * (bladePos.y - prevBladePos.y) / numClouds;
-                        double z = prevBladePos.z + i * (bladePos.z - prevBladePos.z) / numClouds;
-                        for (int j = 0; j < snowflakeDensity; j++) {
-                            float xOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            float yOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            float zOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            if (this.getBossPhase() > 0) {
-                                level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
-                            }else{
-                                level.addParticle(ParticleTypes.FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
-                            }
-                        }
-                    }
+                    Flameswing();
                 }
             }
             if(this.getAnimation() == BURNS_THE_EARTH) {
                 if (this.getAnimationTick() > 35 && this.getAnimationTick() < 52) {
-                    for (int i = 0; i < numClouds; i++) {
-                        double x = prevBladePos.x + i * (bladePos.x - prevBladePos.x) / numClouds;
-                        double y = prevBladePos.y + i * (bladePos.y - prevBladePos.y) / numClouds;
-                        double z = prevBladePos.z + i * (bladePos.z - prevBladePos.z) / numClouds;
-                        for (int j = 0; j < snowflakeDensity; j++) {
-                            float xOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            float yOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            float zOffset = snowflakeRandomness * (2 * random.nextFloat() - 1);
-                            if (this.getBossPhase() > 0) {
-                                level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
-                            } else {
-                                level.addParticle(ParticleTypes.FLAME, x + xOffset, y + yOffset, z + zOffset, 0, 0, 0);
-                            }
-                        }
-                    }
+                    Flameswing();
                 }
-
+            }
+            if(this.getAnimation() == TRIPLE_SWING) {
+                Flameswing();
             }
             prevBladePos = bladePos;
         }
@@ -1258,7 +1243,7 @@ public class Ignis_Entity extends Boss_monster {
         }
 
         public boolean canUse() {
-            return Ignis_Entity.this.getAnimation() == BURNS_THE_EARTH;
+            return Ignis_Entity.this.getAnimation() == TRIPLE_SWING;
         }
 
         public boolean requiresUpdateEveryTick() {

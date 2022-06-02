@@ -937,7 +937,7 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
 
         animator.resetKeyframe(15);
 
-        animator.setAnimation(Ignis_Entity.TRIPLE_SWING);
+        animator.setAnimation(Ignis_Entity.TRIPLE_ATTACK);
         //들기
         animator.startKeyframe(15);
         animator.rotate(root, 0, (float)Math.toRadians(-25F), 0);

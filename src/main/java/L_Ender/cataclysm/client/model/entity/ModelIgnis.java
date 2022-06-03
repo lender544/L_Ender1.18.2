@@ -1041,6 +1041,31 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         animator.setStaticKeyframe(15);
 
         animator.resetKeyframe(15);
+
+        animator.setAnimation(Ignis_Entity.DODGE);
+        animator.startKeyframe(5);
+        animator.rotate(root, 0, (float)Math.toRadians(30F), 0);
+        animator.rotate(upperbody, (float)Math.toRadians(-7.5F), (float)Math.toRadians(2.5F), (float)Math.toRadians(-7.5F));
+        animator.rotate(head, (float)Math.toRadians(-12.5F), (float)Math.toRadians(-30F), (float)Math.toRadians(10F));
+        animator.rotate(right_arm_joint, (float)Math.toRadians(15F), (float)Math.toRadians(2.5F), (float)Math.toRadians(-10F));
+        animator.rotate(right_fist, (float)Math.toRadians(-25F), 0, 0);
+        animator.rotate(left_arm_joint, (float)Math.toRadians(75F), 0, (float)Math.toRadians(-27.5F));
+        animator.rotate(left_arm, (float)Math.toRadians(67.5F), 0, (float)Math.toRadians(35F));
+        animator.rotate(left_hand, (float)Math.toRadians(22.5F), 0, 0);
+        animator.endKeyframe();
+
+        animator.setStaticKeyframe(1);
+
+        animator.startKeyframe(4);
+        animator.rotate(root, (float)Math.toRadians(-15F), (float)Math.toRadians(20F), 0);
+        animator.rotate(upperbody, (float)Math.toRadians(15F), (float)Math.toRadians(-7.5F), (float)Math.toRadians(7.5F));
+        animator.rotate(head, (float)Math.toRadians(-12.5F), (float)Math.toRadians(-30F), (float)Math.toRadians(10F));
+        animator.rotate(right_arm_joint, (float)Math.toRadians(-10F), (float)Math.toRadians(-7.5F), (float)Math.toRadians(30F));
+        animator.rotate(right_hand, (float)Math.toRadians(15F), 0, 0);
+        animator.rotate(left_arm_joint, (float)Math.toRadians(102.5F), (float)Math.toRadians(17.5F), (float)Math.toRadians(-47.5F));
+        animator.rotate(left_arm, (float)Math.toRadians(67.5F), 0, (float)Math.toRadians(35F));
+        animator.endKeyframe();
+        animator.resetKeyframe(5);
     }
 
     private void poke(Ignis_Entity entity, int start, int setstatic, int reset){

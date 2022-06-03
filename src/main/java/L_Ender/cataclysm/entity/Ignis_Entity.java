@@ -1,6 +1,7 @@
 package L_Ender.cataclysm.entity;
 
 import L_Ender.cataclysm.config.CMConfig;
+import L_Ender.cataclysm.entity.AI.AnimationGoal;
 import L_Ender.cataclysm.entity.AI.CmAttackGoal;
 import L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -75,6 +76,7 @@ public class Ignis_Entity extends Boss_monster {
     public static final Animation BODY_CHECK_ATTACK4 = Animation.create(62);
     public static final Animation BURNS_THE_EARTH = Animation.create(67);
     public static final Animation TRIPLE_ATTACK = Animation.create(139);
+    public static final Animation DODGE = Animation.create(15);
     public static final int BODY_CHECK_COOLDOWN = 200;
     private static final EntityDataAccessor<Boolean> IS_BLOCKING = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_SHIELD_BREAK = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
@@ -122,7 +124,8 @@ public class Ignis_Entity extends Boss_monster {
                 SMASH,
                 SMASH_IN_AIR,
                 BURNS_THE_EARTH,
-                TRIPLE_ATTACK};
+                TRIPLE_ATTACK,
+                DODGE};
     }
 
     protected void registerGoals() {
@@ -136,8 +139,8 @@ public class Ignis_Entity extends Boss_monster {
         this.goalSelector.addGoal(1, new Shield_Smash());
         this.goalSelector.addGoal(1, new Body_Check());
         this.goalSelector.addGoal(1, new Poked());
-        this.goalSelector.addGoal(1, new Air_Smash());
-        this.goalSelector.addGoal(1, new Smash());
+        this.goalSelector.addGoal(1, new Air_Smash(this,SMASH_IN_AIR));
+        this.goalSelector.addGoal(1, new AnimationGoal<>(this, SMASH));
         this.goalSelector.addGoal(1, new Vertical_Swing());
         this.goalSelector.addGoal(1, new Triple_Attack());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -1141,19 +1144,13 @@ public class Ignis_Entity extends Boss_monster {
         }
     }
 
-    class Air_Smash extends Goal {
+    class Air_Smash extends AnimationGoal {
 
-        public Air_Smash() {
+        public Air_Smash(Ignis_Entity entity, Animation animation) {
+            super(entity, animation);
             this.setFlags(EnumSet.of(Flag.JUMP, Flag.LOOK, Flag.MOVE));
         }
 
-        public boolean canUse() {
-            return Ignis_Entity.this.getAnimation() == SMASH_IN_AIR;
-        }
-
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
 
         public void tick() {
             LivingEntity target = Ignis_Entity.this.getTarget();
@@ -1172,25 +1169,6 @@ public class Ignis_Entity extends Boss_monster {
                 AnimationHandler.INSTANCE.sendAnimationMessage(Ignis_Entity.this, SMASH);
             }
 
-        }
-    }
-
-    class Smash extends Goal {
-
-        public Smash() {
-            this.setFlags(EnumSet.of(Flag.JUMP, Flag.LOOK, Flag.MOVE));
-        }
-
-        public boolean canUse() {
-            return Ignis_Entity.this.getAnimation() == SMASH;
-        }
-
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
-
-        public void tick() {
-           // Ignis_Entity.this.setDeltaMovement(0, Ignis_Entity.this.getDeltaMovement().y, 0);
         }
     }
 

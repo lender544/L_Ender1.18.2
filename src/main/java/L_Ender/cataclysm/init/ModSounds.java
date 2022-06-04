@@ -11,9 +11,6 @@ public class ModSounds {
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, cataclysm.MODID);
 
-    public static final RegistryObject<SoundEvent> TAZDINGO = SOUNDS.register("undyingrage",
-            () -> new SoundEvent(new ResourceLocation(cataclysm.MODID,"undyingrage")));
-
     public static final RegistryObject<SoundEvent> GOLEMDEATH = SOUNDS.register("golemdeath",
             () -> new SoundEvent(new ResourceLocation(cataclysm.MODID,"golemdeath")));
 

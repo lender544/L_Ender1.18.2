@@ -66,7 +66,7 @@ public class Ignis_Entity extends Boss_monster {
     public static final Animation POKE_ATTACK2 = Animation.create(56);
     public static final Animation POKE_ATTACK3 = Animation.create(50);
     public static final Animation POKED_ATTACK = Animation.create(65);
-    public static final Animation PHASE = Animation.create(130);
+    public static final Animation PHASE_3 = Animation.create(90);
     public static final Animation MAGIC_ATTACK = Animation.create(95);
     public static final Animation SMASH_IN_AIR = Animation.create(105);
     public static final Animation SMASH = Animation.create(47);
@@ -118,7 +118,7 @@ public class Ignis_Entity extends Boss_monster {
                 POKE_ATTACK3,
                 POKED_ATTACK,
                 MAGIC_ATTACK,
-                PHASE,
+                PHASE_3,
                 SHIELD_SMASH_ATTACK,
                 PHASE_2,
                 BODY_CHECK_ATTACK4,
@@ -140,6 +140,7 @@ public class Ignis_Entity extends Boss_monster {
         this.goalSelector.addGoal(1, new Hornzontal_Swing(this,HORIZONTAL_SWING_ATTACK));
         this.goalSelector.addGoal(1, new Poke(this));
         this.goalSelector.addGoal(1, new Phase_Transition(this,PHASE_2));
+        this.goalSelector.addGoal(1, new Phase_Transition2(this,PHASE_3));
         this.goalSelector.addGoal(1, new Shield_Smash(this,SHIELD_SMASH_ATTACK));
         this.goalSelector.addGoal(1, new Body_Check(this));
         this.goalSelector.addGoal(1, new Poked(this, POKED_ATTACK));
@@ -1078,6 +1079,24 @@ public class Ignis_Entity extends Boss_monster {
     class Phase_Transition extends SimpleAnimationGoal<Ignis_Entity> {
 
         public Phase_Transition(Ignis_Entity entity, Animation animation) {
+            super(entity, animation);
+            this.setFlags(EnumSet.of(Flag.JUMP, Flag.LOOK, Flag.MOVE));
+        }
+
+        public void tick() {
+            LivingEntity target = Ignis_Entity.this.getTarget();
+            if (Ignis_Entity.this.getAnimationTick() < 34 && target != null || Ignis_Entity.this.getAnimationTick() > 54 && target != null) {
+                Ignis_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            } else {
+                Ignis_Entity.this.setYRot(Ignis_Entity.this.yRotO);
+            }
+            Ignis_Entity.this.setDeltaMovement(0, Ignis_Entity.this.getDeltaMovement().y, 0);
+        }
+    }
+
+    class Phase_Transition2 extends SimpleAnimationGoal<Ignis_Entity> {
+
+        public Phase_Transition2(Ignis_Entity entity, Animation animation) {
             super(entity, animation);
             this.setFlags(EnumSet.of(Flag.JUMP, Flag.LOOK, Flag.MOVE));
         }

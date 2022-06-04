@@ -76,9 +76,6 @@ public class Boss_monster extends Monster implements IAnimatedEntity {
         livingEntity.level.broadcastEntityEvent(livingEntity, (byte)30);
     }
 
-    public static void entityHitAngle(LivingEntity livingEntity, int arc, int range) {
-
-    }
 
     protected void onAnimationFinish(Animation animation) {}
 

@@ -20,7 +20,7 @@ public class CMPathNavigateGround extends GroundPathNavigation {
     protected PathFinder createPathFinder(int maxVisitedNodes) {
         this.nodeEvaluator = new WalkNodeEvaluator();
         this.nodeEvaluator.setCanPassDoors(true);
-        return new CMPathFinder(this.nodeEvaluator, maxVisitedNodes);
+        return new PathFinder(this.nodeEvaluator, maxVisitedNodes);
     }
 
     @Override
@@ -62,7 +62,6 @@ public class CMPathNavigateGround extends GroundPathNavigation {
         }
         return false;
     }
-
     private boolean tryShortcut(Path path, Vec3 mobPos, int pathLength, Vec3 base, Vec3 max) {
         for (int i = pathLength; --i > path.getNextNodeIndex(); ) {
             final Vec3 vec = path.getEntityPosAtNode(this.mob, i).subtract(mobPos);
@@ -72,6 +71,10 @@ public class CMPathNavigateGround extends GroundPathNavigation {
             }
         }
         return true;
+    }
+    @Override
+    protected boolean canMoveDirectly(Vec3 p_186138_, Vec3 p_186139_) {
+       return true;
     }
 
 
@@ -102,7 +105,46 @@ public class CMPathNavigateGround extends GroundPathNavigation {
             float dist = dir ? (ldi[i] + 1 - lead) : (lead - ldi[i]);
             tNext[i] = tDelta[i] < Float.POSITIVE_INFINITY ? tDelta[i] * dist : Float.POSITIVE_INFINITY;
         }
-
+        /*final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        do {
+            // stepForward
+            int axis = (tNext[0] < tNext[1]) ?
+                    ((tNext[0] < tNext[2]) ? 0 : 2) :
+                    ((tNext[1] < tNext[2]) ? 1 : 2);
+            float dt = tNext[axis] - t;
+            t = tNext[axis];
+            ldi[axis] += step[axis];
+            tNext[axis] += tDelta[axis];
+            for (int i = 0; i < 3; i++) {
+                tr[i] += dt * normed[i];
+                tri[i] = trailEdgeToInt(tr[i], step[i]);
+            }
+            // checkCollision
+            int stepx = step[0];
+            int x0 = (axis == 0) ? ldi[0] : tri[0];
+            int x1 = ldi[0] + stepx;
+            int stepy = step[1];
+            int y0 = (axis == 1) ? ldi[1] : tri[1];
+            int y1 = ldi[1] + stepy;
+            int stepz = step[2];
+            int z0 = (axis == 2) ? ldi[2] : tri[2];
+            int z1 = ldi[2] + stepz;
+            for (int x = x0; x != x1; x += stepx) {
+                for (int z = z0; z != z1; z += stepz) {
+                    for (int y = y0; y != y1; y += stepy) {
+                        BlockState block = this.level.getBlockState(pos.set(x, y, z));
+                        if (!block.isPathfindable(this.level, pos, PathComputationType.LAND)) return false;
+                    }
+                    BlockPathTypes below = this.nodeEvaluator.getBlockPathType(this.level, x, y0 - 1, z, this.mob, 1, 1, 1, true, true);
+                    if (below == BlockPathTypes.OPEN) return false;
+                    BlockPathTypes in = this.nodeEvaluator.getBlockPathType(this.level, x, y0, z, this.mob, 1, y1 - y0, 1, true, true);
+                    float priority = this.mob.getPathfindingMalus(in);
+                    if (priority < 0.0F || priority >= 8.0F) return false;
+                   // if (in == BlockPathTypes.DAMAGE_FIRE || in == BlockPathTypes.DANGER_FIRE || in == BlockPathTypes.DAMAGE_OTHER) return false;
+                }
+            }
+        } while (t <= max_t);
+         *****/
         return true;
     }
 
